@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{2bbfa57d-a9b5-4c82-a621-2201def67e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic">
+      <UniqueIdentifier>{904ceaad-bfe8-40bb-bf1c-9a1bb21ca20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{84bdd8f9-2972-4da0-b60d-d26f45aba526}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPFighter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDefine.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameProc.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="CScreenDIB.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkProc.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="RingBuffer.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketDefine.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketRecv.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketSend.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollMap.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializeBuffer.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPFighter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameProc.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="CScreenDIB.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="RingBuffer.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkProc.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketRecv.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketSend.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollMap.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializeBuffer.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TCPFighter.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="TCPFighter.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
