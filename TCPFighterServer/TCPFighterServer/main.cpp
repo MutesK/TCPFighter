@@ -2,14 +2,6 @@
 #include "Network\NetworkProc.h"
 #include "Content\ContentProc.h"
 #include "Content\Sector.h"
-
-/*
-	Move, Stop, 데드레커닝 파트
-	디버깅(뉴 섹터, 딜리트 섹터 전송에 문제)
-	-> 어째서 특정한 상황에서 케릭터가 번지는가? (삭제, 갱신이 이상하게 동작)
-	공격은 잘됨.
-*/
-
 bool isQuit = false;
 int main()
 {

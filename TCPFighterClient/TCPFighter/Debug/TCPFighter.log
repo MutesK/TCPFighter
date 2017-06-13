@@ -1,4 +1,0 @@
-﻿  PacketRecv.cpp
-c:\users\user\desktop\workspace\tcpfighter\tcpfighter\packetrecv.cpp(25): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  TCPFighter.vcxproj -> C:\Users\user\Desktop\Workspace\TCPFighter\Debug\TCPFighter.exe
-  TCPFighter.vcxproj -> C:\Users\user\Desktop\Workspace\TCPFighter\Debug\TCPFighter.pdb (Full PDB)

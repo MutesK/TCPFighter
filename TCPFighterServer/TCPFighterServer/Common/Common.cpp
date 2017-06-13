@@ -14,21 +14,18 @@ extern bool isQuit;
 BOOL FrameCheck()
 {
 	static DWORD m_dwSystemTick = 0;
-	static DWORD m_iOneFrameTick = 1000 / FPS;
 
 	BYTE flag;
 	DWORD dwTick = GetTickCount64();
-	iTick += dwTick - m_dwSystemTick;
-	flag = false;
+	iTick = dwTick - m_dwSystemTick;
 
-	if (dwFPSCount * m_iOneFrameTick < iTick
-		&&	(dwFPSCount + 1) * m_iOneFrameTick > iTick)
-		flag = true;
+	if (iTick >= 40)  // FPS = 1000 / ms
+	{
+		m_dwSystemTick = dwTick - (iTick - 40);
+		return true;
+	}
 	
-
-	m_dwSystemTick = GetTickCount64();
-
-	return flag;
+	return false;
 }
 
 void Monitoring()
@@ -70,7 +67,7 @@ void Log(WCHAR *szStr, int iLogLevel)
 	GetLocalTime(&ProcTime);
 
 	WCHAR *szFileName = new WCHAR[100];
-	swprintf_s(szFileName, sizeof(WCHAR) * 100 , L"Log\\Log%4d.%02d.%02d.txt",
+	swprintf_s(szFileName, sizeof(WCHAR) * 100 , L"Log%4d.%02d.%02d.txt",
 		ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay, ProcTime.wHour, ProcTime.wMinute);
 
 	FILE *fp;

@@ -26,11 +26,9 @@ st_PLAYER * FindPlayer(DWORD &ClientNo)
 void Update()
 {
 	// 프레임 체크 한다.
-
-	while (dwFPSCount < FPS)
+	if (FrameCheck())
 	{
 		dwFPSCount++;
-
 		auto begin = g_PlayerMap.begin();
 		auto end = g_PlayerMap.end();
 
@@ -52,6 +50,7 @@ void Update()
 				//DeleteCharacter(pPlayer->dwClientNo);
 				continue;
 			}
+
 		}
 	}
 }
