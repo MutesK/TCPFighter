@@ -3,7 +3,7 @@
 #include "../Network/NetworkProc.h"
 #include "Sector.h"
 
-#define dfERRORRANGE 500
+#define dfERRORRANGE 50
 #define dfNETWORK_PACKET_RECV_TIMEOUT 1000000000
 
 

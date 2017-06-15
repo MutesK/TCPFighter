@@ -5,7 +5,7 @@
 #include "SerializeBuffer.h"
 #include "PacketDefine.h"
 
-#define dfRECV_BUFF 20000
+#define dfRECV_BUFF 3000
 
 struct st_CLIENT
 {

@@ -16,7 +16,7 @@ BOOL FrameCheck()
 	static DWORD m_dwSystemTick = 0;
 
 	BYTE flag;
-	DWORD dwTick = GetTickCount64();
+	DWORD dwTick = timeGetTime();
 	iTick = dwTick - m_dwSystemTick;
 
 	if (iTick >= 40)  // FPS = 1000 / ms
@@ -30,21 +30,21 @@ BOOL FrameCheck()
 
 void Monitoring()
 {
-	DWORD Tick = GetTickCount64();
-	static DWORD timeTickCount = GetTickCount64();
+	DWORD Tick = timeGetTime();
+	static DWORD timeTickCount = timeGetTime();
 
 
 	if (Tick - timeTickCount  > 1000)
 	{
-		st_Monitor *pMonitor = new st_Monitor;
-		pMonitor->dwLoopCount = dwLoopCount;
-		pMonitor->dwFPSCount = dwFPSCount;
-		GetLocalTime(&pMonitor->stProcTime);
+		st_Monitor pMonitor;
+		pMonitor.dwLoopCount = dwLoopCount;
+		pMonitor.dwFPSCount = dwFPSCount;
+		GetLocalTime(&pMonitor.stProcTime);
 
 		WCHAR LogStr[1024];
 		wsprintf(LogStr ,L"[%4d:%02d:%02d %02d:%02d:%02d] Frame : %d Loop : %d", 
-			pMonitor->stProcTime.wYear, pMonitor->stProcTime.wMonth, pMonitor->stProcTime.wDay,
-			pMonitor->stProcTime.wHour, pMonitor->stProcTime.wMinute, pMonitor->stProcTime.wSecond, 
+			pMonitor.stProcTime.wYear, pMonitor.stProcTime.wMonth, pMonitor.stProcTime.wDay,
+			pMonitor.stProcTime.wHour, pMonitor.stProcTime.wMinute, pMonitor.stProcTime.wSecond, 
 			dwFPSCount, dwLoopCount);
 
 		wprintf(L"%s\n", LogStr);
@@ -56,8 +56,7 @@ void Monitoring()
 		dwFPSCount = 0;
 		iTick = 0;
 
-		timeTickCount = GetTickCount64();
-		delete pMonitor;
+		timeTickCount = timeGetTime();
 	}
 }
 
@@ -67,8 +66,8 @@ void Log(WCHAR *szStr, int iLogLevel)
 	GetLocalTime(&ProcTime);
 
 	WCHAR *szFileName = new WCHAR[100];
-	swprintf_s(szFileName, sizeof(WCHAR) * 100 , L"Log%4d.%02d.%02d.txt",
-		ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay, ProcTime.wHour, ProcTime.wMinute);
+	swprintf_s(szFileName,  100 , L"Log%4d.%02d.%02d.txt",
+		ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay);
 
 	FILE *fp;
 
@@ -82,13 +81,16 @@ void Log(WCHAR *szStr, int iLogLevel)
 	switch (iLogLevel) 
 	{
 	case dfLOG_LEVEL_DEBUG:
-		wsprintf(pPrint, L"Log[DEBUG]:");
+		wsprintf(pPrint, L"Log[DEBUG]:[%4d:%02d:%02d %02d:%02d:%02d]", 
+			ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay, ProcTime.wHour, ProcTime.wMinute, ProcTime.wSecond);
 		break;
 	case dfLOG_LEVEL_WARNING:
-		wsprintf(pPrint, L"Log[WARNING]:");
+		wsprintf(pPrint, L"Log[WARNING]:[%4d:%02d:%02d %02d:%02d:%02d]",
+			ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay, ProcTime.wHour, ProcTime.wMinute, ProcTime.wSecond);
 		break;
 	case dfLOG_LEVEL_ERROR:
-		wsprintf(pPrint, L"Log[ERROR]:");
+		wsprintf(pPrint, L"Log[ERROR]:[%4d:%02d:%02d %02d:%02d:%02d]",
+			ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay, ProcTime.wHour, ProcTime.wMinute, ProcTime.wSecond);
 		break;
 	}
 	lstrcatW(pPrint, szStr);
@@ -96,8 +98,8 @@ void Log(WCHAR *szStr, int iLogLevel)
 	fwprintf(fp, L"%s\r\n", pPrint);
 
 	fclose(fp);
-	delete szFileName;
-	delete pPrint;
+	delete[] szFileName;
+	delete[] pPrint;
 }
 
 void ServerControl()

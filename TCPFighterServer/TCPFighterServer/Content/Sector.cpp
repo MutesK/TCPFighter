@@ -37,15 +37,20 @@ void Sector_RemoveCharacter(st_PLAYER *pPlayer)
 
 	auto iter = pList->begin();
 
+	bool isSuc = false;
 	while (iter != pList->end())
 	{
 		if (pPlayer == (*iter))
 		{
 			pList->erase(iter);
+			isSuc = true;
 			break;
 		}
 		iter++;
 	}
+
+	if (!isSuc)
+		_LOG(dfLOG_LEVEL_ERROR, L"Player %d isn't Exist in List \n", pPlayer->dwClientNo);
 
 	pPlayer->OldPos.iX = pPlayer->CurPos.iX;
 	pPlayer->OldPos.iY = pPlayer->CurPos.iY;
@@ -237,7 +242,7 @@ bool Comp(st_PLAYER* first, st_PLAYER * sec)
 	{
 		if (first->woY == sec->woY)
 		{
-			if (first->woX <= sec->woX)
+			if (first->woX < sec->woX)
 				return true;
 		}
 	}

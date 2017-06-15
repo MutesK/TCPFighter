@@ -42,6 +42,9 @@ bool NetworkInit()
 		return false;
 	}
 
+	u_long on = 1;
+	 ioctlsocket(g_ListenSocket, FIONBIO, &on);
+
 	wprintf(L"Server Open.! \n");
 	return true;
 }
@@ -59,7 +62,7 @@ void NetworkProcess()
 
 	FD_ZERO(&RSet);
 	FD_ZERO(&WSet);
-	memset(UserTable_No, -1, sizeof(__int64) * FD_SETSIZE);
+	memset(UserTable_No, -1, sizeof(DWORD) * FD_SETSIZE);
 	memset(UserTable_SOCKET, INVALID_SOCKET, sizeof(SOCKET) *FD_SETSIZE);
 
 	// 리슨소켓은 0으로 함.
@@ -96,7 +99,7 @@ void NetworkProcess()
 			FD_ZERO(&RSet);
 			FD_ZERO(&WSet);
 
-			memset(UserTable_No, -1, sizeof(__int64) * FD_SETSIZE);
+			memset(UserTable_No, -1, sizeof(DWORD) * FD_SETSIZE);
 			memset(UserTable_SOCKET, INVALID_SOCKET, sizeof(SOCKET) * FD_SETSIZE);
 			iSocketCount = 0;
 			// 왜 Sleep 걸면 되냐?
@@ -164,7 +167,7 @@ void AcceptProc()
 
 	pUser->dwClientNo = dwClientIDNo;
 	pUser->dwRecvCount = 0;
-	pUser->dwRecvTick = GetTickCount64();
+	pUser->dwRecvTick = timeGetTime();
 	pUser->dwRecvSecondTick = 0;
 
 	g_ClientMap.insert(map<UINT64, st_CLIENT *>::value_type(dwClientIDNo, pUser));
@@ -229,7 +232,7 @@ void RecvProc(DWORD& UserNo)
 	// 틱 저장
 	pClient->dwRecvCount++;
 	pClient->dwRecvSecondTick = pClient->dwRecvTick;
-	pClient->dwRecvTick = GetTickCount64() - pClient->dwRecvSecondTick;
+	pClient->dwRecvTick = timeGetTime() - pClient->dwRecvSecondTick;
 
 	if (SOCKET_ERROR == iResult || 0 == iResult)
 	{
@@ -336,6 +339,9 @@ bool PacketProc(st_CLIENT *pClient, const BYTE& MsgType, CRingBuffer *Buffer)
 	case dfPACKET_CS_ATTACK3:
 		RecvPacket_Attack3(pClient, Buffer);
 		break;
+	case dfPACKET_CS_ECHO:
+		RecvPacket_Echo(pClient, Buffer);
+		break;
 	}
 	return true;
 }
@@ -373,5 +379,5 @@ void DisconnectClient(DWORD &UserNo)
 
 	closesocket(pClient->Socket);
 	g_ClientMap.erase(UserNo);
-
+	delete pClient;
 }

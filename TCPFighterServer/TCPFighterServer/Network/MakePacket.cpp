@@ -219,10 +219,27 @@ void MakeSync(st_PLAYER *pPlayer, CSerializeBuffer *pBuffer, WORD wX, WORD wY)
 
 	Header.byCode = dfNETWORK_PACKET_CODE;
 	Header.bySize = Buffer.GetDataSize();
-	Header.byType = dfPACKET_SC_DAMAGE;
+	Header.byType = dfPACKET_SC_SYNC;
 
 	pBuffer->PutData(reinterpret_cast<char *>(&Header), sizeof(st_NETWORK_PACKET_HEADER));
 	pBuffer->PutData(Buffer.GetReadBufferPtr(), Header.bySize);
 
 	*pBuffer << dfNETWORK_PACKET_END;
+}
+
+
+void MakeEcho(CSerializeBuffer *pBuffer, DWORD& ClientTick)
+{
+	st_NETWORK_PACKET_HEADER Header;
+
+
+	Header.byCode = dfNETWORK_PACKET_CODE;
+	Header.bySize = 4;
+	Header.byType = dfPACKET_SC_ECHO;
+
+	pBuffer->PutData(reinterpret_cast<char *>(&Header), sizeof(st_NETWORK_PACKET_HEADER));
+	*pBuffer << (DWORD)ClientTick;
+
+	*pBuffer << dfNETWORK_PACKET_END;
+
 }

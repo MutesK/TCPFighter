@@ -41,3 +41,6 @@ void MakeDamage(st_PLAYER *pAttacker, st_PLAYER *pDamager, CSerializeBuffer *pBu
 
 // 동기화 패킷( 유니캐스트)
 void MakeSync(st_PLAYER *pPlayer, CSerializeBuffer *pBuffer, WORD wX, WORD wY);
+
+
+void MakeEcho(CSerializeBuffer *pBuffer, DWORD& ClientTick);

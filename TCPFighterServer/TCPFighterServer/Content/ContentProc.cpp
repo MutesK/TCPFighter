@@ -43,12 +43,12 @@ void Update()
 				//DeleteCharacter(pPlayer->dwClientNo);
 			}
 
-			DWORD dwTick = GetTickCount64();
+			DWORD dwTick = timeGetTime();
 
 			if (dwTick - pPlayer->pClient->dwRecvTick > dfNETWORK_PACKET_RECV_TIMEOUT)
 			{
 				//DeleteCharacter(pPlayer->dwClientNo);
-				continue;
+				//continue;
 			}
 
 		}
@@ -217,7 +217,7 @@ void ReadySendUpdate(st_PLAYER *pPlayer)
 
 int DeadReckoning(DWORD dwAction, DWORD dwActionTick, int OldPosX, int OldPosY, int *pOutX, int *pOutY)
 {
-	DWORD dwIntervalTick = GetTickCount64() - dwActionTick;
+	DWORD dwIntervalTick = timeGetTime() - dwActionTick;
 
 	int iActionFrame = dwIntervalTick / 20;
 	int iRemoveFrame = 0;
@@ -389,7 +389,7 @@ void CreateCharacter(st_CLIENT *pClient)
 	for (int i = 0; i < pPlayer->Around.iCount; i++)
 	{
 		_OUTPUTDEBUG(L"CreateCharacter  [%d %d]\n", pPlayer->Around.Around[i].iY, pPlayer->Around.Around[i].iX);
-		_OUTPUTDEBUG(L"CreateCharacter Player No : %d \n", pPlayer->dwClientNo);
+		_OUTPUTDEBUG(L"CreateCharacter Player No : %u \n", pPlayer->dwClientNo);
 
 		if (pPlayer->Around.Around[i].iX || pPlayer->Around.Around[i].iY == -1)
 			continue;
@@ -416,12 +416,12 @@ void DeleteCharacter(DWORD &UserNo)
 {
 	st_PLAYER *pPlayer = FindPlayer(UserNo);
 
-	DisconnectClient(UserNo);
-	_OUTPUTDEBUG(L"Disconnect Player No : %d \n", pPlayer->dwClientNo);
+
+	_OUTPUTDEBUG(L"Disconnect Player No : %u \n", pPlayer->dwClientNo);
 
 	if (pPlayer == nullptr)
 	{
-		_LOG(dfLOG_LEVEL_ERROR, L"# DeleteCharacter > Session ID : %d Player isn't Not Found!", UserNo);
+		_LOG(dfLOG_LEVEL_ERROR, L"# DeleteCharacter > Session ID : %u Player isn't Not Found!", UserNo);
 		DisconnectClient(pPlayer->dwClientNo);
 
 		// 디버그 대상
@@ -437,11 +437,13 @@ void DeleteCharacter(DWORD &UserNo)
 	Sector_RemoveCharacter(pPlayer);
 	SendSectorAround(&pPlayer->Around, nullptr, &SectorAround);
 
+	DisconnectClient(UserNo);
+
 	auto iter = g_PlayerMap.find(UserNo);
 	if (iter == g_PlayerMap.end())
 		return;
 
-	g_PlayerMap.erase(UserNo);
+	g_PlayerMap.erase(iter);
 
 	delete pPlayer;
 	
@@ -449,7 +451,7 @@ void DeleteCharacter(DWORD &UserNo)
 
 void CharacterMoveStart(st_CLIENT *pClient, stPACKET_CS_MOVE_START *pPacket)
 {
-	_LOG(dfLOG_LEVEL_WARNING, L"# MOVESTART # Session ID : %d / Direction : %d / X : %d / Y : %d",
+	_LOG(dfLOG_LEVEL_WARNING, L"# MOVESTART # Session ID : %u / Direction : %d / X : %d / Y : %d",
 		pClient->dwClientNo, pPacket->Direction, pPacket->X, pPacket->Y);
 
 	st_PLAYER *pPlayer = FindPlayer(pClient->dwClientNo);
@@ -457,8 +459,8 @@ void CharacterMoveStart(st_CLIENT *pClient, stPACKET_CS_MOVE_START *pPacket)
 
 	if (pPlayer == nullptr)
 	{
-		_LOG(dfLOG_LEVEL_ERROR, L"# MoveStart > Session ID %d Player Not Found", pClient->dwClientNo);
-		DisconnectClient(pClient->dwClientNo);
+		_LOG(dfLOG_LEVEL_ERROR, L"# MoveStart > Session ID %u Player Not Found", pClient->dwClientNo);
+		DeleteCharacter(pClient->dwClientNo);
 		return;
 	}
 
@@ -504,7 +506,7 @@ void CharacterMoveStart(st_CLIENT *pClient, stPACKET_CS_MOVE_START *pPacket)
 		ReadySendUpdate(pPlayer);
 	}
 
-	pPlayer->dwActionTick = GetTickCount64();
+	pPlayer->dwActionTick = timeGetTime();
 	pPlayer->woActionX = pPlayer->woX;
 	pPlayer->woActionY = pPlayer->woY;
 
@@ -517,7 +519,7 @@ void CharacterMoveStart(st_CLIENT *pClient, stPACKET_CS_MOVE_START *pPacket)
 
 void CharacterMoveStop(st_CLIENT *pClient, stPACKET_CS_MOVE_STOP *pPacket)
 {
-	_LOG(dfLOG_LEVEL_WARNING, L"# MOVESTOP # Session ID : %d / Direction : %d / X : %d / Y : %d",
+	_LOG(dfLOG_LEVEL_WARNING, L"# MOVESTOP # Session ID : %u / Direction : %d / X : %d / Y : %d",
 		pClient->dwClientNo, pPacket->Direction, pPacket->X, pPacket->Y);
 
 	st_PLAYER *pPlayer = FindPlayer(pClient->dwClientNo);
@@ -525,8 +527,8 @@ void CharacterMoveStop(st_CLIENT *pClient, stPACKET_CS_MOVE_STOP *pPacket)
 
 	if (pPlayer == nullptr)
 	{
-		_LOG(dfLOG_LEVEL_ERROR, L"# MOVESTOP > Session ID %d Player Not Found", pClient->dwClientNo);
-		DisconnectClient(pClient->dwClientNo);
+		_LOG(dfLOG_LEVEL_ERROR, L"# MOVESTOP > Session ID %u Player Not Found", pClient->dwClientNo);
+		DeleteCharacter(pClient->dwClientNo);
 		return;
 	}
 
@@ -558,7 +560,7 @@ void CharacterMoveStop(st_CLIENT *pClient, stPACKET_CS_MOVE_STOP *pPacket)
 		ReadySendUpdate(pPlayer);
 	}
 
-	pPlayer->dwActionTick = GetTickCount64();
+	pPlayer->dwActionTick = timeGetTime();
 	pPlayer->woActionX = pPlayer->woX;
 	pPlayer->woActionY = pPlayer->woY;
 
@@ -572,7 +574,7 @@ void CharacterMoveStop(st_CLIENT *pClient, stPACKET_CS_MOVE_STOP *pPacket)
 
 void CharacterAttack1(st_CLIENT *pClient, stPACKET_CS_ATTACK1 *pPacket)
 {
-	_LOG(dfLOG_LEVEL_WARNING, L"# ATTACK1 # Session ID : %d / Direction : %d / X : %d / Y : %d",
+	_LOG(dfLOG_LEVEL_WARNING, L"# ATTACK1 # Session ID : %u / Direction : %d / X : %d / Y : %d",
 		pClient->dwClientNo, pPacket->Direction, pPacket->X, pPacket->Y);
 
 	st_PLAYER *pPlayer = FindPlayer(pClient->dwClientNo);
@@ -580,8 +582,8 @@ void CharacterAttack1(st_CLIENT *pClient, stPACKET_CS_ATTACK1 *pPacket)
 
 	if (pPlayer == nullptr)
 	{
-		_LOG(dfLOG_LEVEL_ERROR, L"# ATTACK1 > Session ID %d Player Not Found", pClient->dwClientNo);
-		DisconnectClient(pClient->dwClientNo);
+		_LOG(dfLOG_LEVEL_ERROR, L"# ATTACK1 > Session ID %u Player Not Found", pClient->dwClientNo);
+		DeleteCharacter(pClient->dwClientNo);
 		return;
 	}
 
@@ -614,7 +616,7 @@ void CharacterAttack1(st_CLIENT *pClient, stPACKET_CS_ATTACK1 *pPacket)
 	}
 
 
-	pPlayer->dwActionTick = GetTickCount64();
+	pPlayer->dwActionTick = timeGetTime();
 	pPlayer->woActionX = pPlayer->woX;
 	pPlayer->woActionY = pPlayer->woY;
 
@@ -637,7 +639,7 @@ void CharacterAttack1(st_CLIENT *pClient, stPACKET_CS_ATTACK1 *pPacket)
 
 void CharacterAttack2(st_CLIENT *pClient, stPACKET_CS_ATTACK2 *pPacket)
 {
-	_LOG(dfLOG_LEVEL_WARNING, L"# ATTACK2 # Session ID : %d / Direction : %d / X : %d / Y : %d",
+	_LOG(dfLOG_LEVEL_WARNING, L"# ATTACK2 # Session ID : %u / Direction : %d / X : %d / Y : %d",
 		pClient->dwClientNo, pPacket->Direction, pPacket->X, pPacket->Y);
 
 	st_PLAYER *pPlayer = FindPlayer(pClient->dwClientNo);
@@ -645,8 +647,8 @@ void CharacterAttack2(st_CLIENT *pClient, stPACKET_CS_ATTACK2 *pPacket)
 
 	if (pPlayer == nullptr)
 	{
-		_LOG(dfLOG_LEVEL_ERROR, L"# ATTACK2 > Session ID %d Player Not Found", pClient->dwClientNo);
-		DisconnectClient(pClient->dwClientNo);
+		_LOG(dfLOG_LEVEL_ERROR, L"# ATTACK2 > Session ID %u Player Not Found", pClient->dwClientNo);
+		DeleteCharacter(pClient->dwClientNo);
 		return;
 	}
 
@@ -698,7 +700,7 @@ void CharacterAttack2(st_CLIENT *pClient, stPACKET_CS_ATTACK2 *pPacket)
 
 void CharacterAttack3(st_CLIENT *pClient, stPACKET_CS_ATTACK3 *pPacket)
 {
-	_LOG(dfLOG_LEVEL_WARNING, L"# ATTACK3 # Session ID : %d / Direction : %d / X : %d / Y : %d",
+	_LOG(dfLOG_LEVEL_WARNING, L"# ATTACK3 # Session ID : %u / Direction : %d / X : %d / Y : %d",
 		pClient->dwClientNo, pPacket->Direction, pPacket->X, pPacket->Y);
 
 	st_PLAYER *pPlayer = FindPlayer(pClient->dwClientNo);
@@ -706,8 +708,8 @@ void CharacterAttack3(st_CLIENT *pClient, stPACKET_CS_ATTACK3 *pPacket)
 
 	if (pPlayer == nullptr)
 	{
-		_LOG(dfLOG_LEVEL_ERROR, L"# ATTACK3 > Session ID %d Player Not Found", pClient->dwClientNo);
-		DisconnectClient(pClient->dwClientNo);
+		_LOG(dfLOG_LEVEL_ERROR, L"# ATTACK3 > Session ID %u Player Not Found", pClient->dwClientNo);
+		DeleteCharacter(pClient->dwClientNo);
 		return;
 	}
 
