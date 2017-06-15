@@ -437,7 +437,7 @@ void DeleteCharacter(DWORD &UserNo)
 	Sector_RemoveCharacter(pPlayer);
 	SendSectorAround(&pPlayer->Around, nullptr, &SectorAround);
 
-	DisconnectClient(UserNo);
+
 
 	auto iter = g_PlayerMap.find(UserNo);
 	if (iter == g_PlayerMap.end())
@@ -446,7 +446,8 @@ void DeleteCharacter(DWORD &UserNo)
 	g_PlayerMap.erase(iter);
 
 	delete pPlayer;
-	
+
+	DisconnectClient(UserNo);
 }
 
 void CharacterMoveStart(st_CLIENT *pClient, stPACKET_CS_MOVE_START *pPacket)
@@ -474,6 +475,7 @@ void CharacterMoveStart(st_CLIENT *pClient, stPACKET_CS_MOVE_START *pPacket)
 		{
 			CSerializeBuffer Buffer;
 			MakeSync(pPlayer, &Buffer, wdrX, wdrY);
+			_LOG(dfLOG_LEVEL_ERROR, L"# Sync > Session ID %u [%d][%d] => [%d][%d]", pClient->dwClientNo, pPlayer->woActionX, pPlayer->woActionY, wdrX, wdrY);
 			GetSectorAround(pPlayer->CurPos.iX, pPlayer->CurPos.iY, &pPlayer->Around);
 			SendSectorAround(&pPlayer->Around, nullptr, &Buffer);
 		}
@@ -542,6 +544,7 @@ void CharacterMoveStop(st_CLIENT *pClient, stPACKET_CS_MOVE_STOP *pPacket)
 		{
 			CSerializeBuffer Buffer;
 			MakeSync(pPlayer, &Buffer, wdrX, wdrY);
+			_LOG(dfLOG_LEVEL_ERROR, L"# Sync > Session ID %u [%d][%d] => [%d][%d]", pClient->dwClientNo, pPlayer->woActionX, pPlayer->woActionY, wdrX, wdrY);
 			GetSectorAround(pPlayer->CurPos.iX, pPlayer->CurPos.iY, &pPlayer->Around);
 			SendSectorAround(&pPlayer->Around, nullptr, &Buffer);
 		}
@@ -597,6 +600,7 @@ void CharacterAttack1(st_CLIENT *pClient, stPACKET_CS_ATTACK1 *pPacket)
 		{
 			CSerializeBuffer Buffer;
 			MakeSync(pPlayer, &Buffer, wdrX, wdrY);
+			_LOG(dfLOG_LEVEL_ERROR, L"# Sync > Session ID %u [%d][%d] => [%d][%d]", pClient->dwClientNo, pPlayer->woActionX, pPlayer->woActionY, wdrX, wdrY);
 			GetSectorAround(pPlayer->CurPos.iX, pPlayer->CurPos.iY, &pPlayer->Around);
 			SendSectorAround(&pPlayer->Around, nullptr, &Buffer);
 		}
@@ -662,6 +666,7 @@ void CharacterAttack2(st_CLIENT *pClient, stPACKET_CS_ATTACK2 *pPacket)
 		{
 			CSerializeBuffer Buffer;
 			MakeSync(pPlayer, &Buffer, wdrX, wdrY);
+			_LOG(dfLOG_LEVEL_ERROR, L"# Sync > Session ID %u [%d][%d] => [%d][%d]", pClient->dwClientNo, pPlayer->woActionX, pPlayer->woActionY, wdrX, wdrY);
 			GetSectorAround(pPlayer->CurPos.iX, pPlayer->CurPos.iY, &pPlayer->Around);
 			SendSectorAround(&pPlayer->Around, nullptr, &Buffer);
 		}
@@ -723,6 +728,7 @@ void CharacterAttack3(st_CLIENT *pClient, stPACKET_CS_ATTACK3 *pPacket)
 		{
 			CSerializeBuffer Buffer;
 			MakeSync(pPlayer, &Buffer, wdrX, wdrY);
+			_LOG(dfLOG_LEVEL_ERROR, L"# Sync > Session ID %u [%d][%d] => [%d][%d]", pClient->dwClientNo, pPlayer->woActionX, pPlayer->woActionY, wdrX, wdrY);
 			GetSectorAround(pPlayer->CurPos.iX, pPlayer->CurPos.iY, &pPlayer->Around);
 			SendSectorAround(&pPlayer->Around, nullptr, &Buffer);
 		}

@@ -65,9 +65,9 @@ void Log(WCHAR *szStr, int iLogLevel)
 	SYSTEMTIME ProcTime;
 	GetLocalTime(&ProcTime);
 
-	WCHAR *szFileName = new WCHAR[100];
-	swprintf_s(szFileName,  100 , L"Log%4d.%02d.%02d.txt",
-		ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay);
+	WCHAR *szFileName = new WCHAR[150];
+	swprintf_s(szFileName,  100 , L"Log%4d.%02d.%02d.%02dH.%02dM.txt",
+		ProcTime.wYear, ProcTime.wMonth, ProcTime.wDay, ProcTime.wHour, ProcTime.wMinute);
 
 	FILE *fp;
 
