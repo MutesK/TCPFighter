@@ -127,6 +127,8 @@ CSerializeBuffer& CSerializeBuffer::operator=(CSerializeBuffer &clSrCSerializeBu
 
 	this->m_chpBuffer = new char[m_iBufferSize];
 	
+	memcpy(this->m_chpBuffer, clSrCSerializeBuffer.m_chpBuffer, m_iBufferSize);
+
 	int ReadIndex = clSrCSerializeBuffer.m_chpReadPos - clSrCSerializeBuffer.m_chpBuffer;
 	this->m_chpReadPos = m_chpBuffer + ReadIndex;
 
@@ -135,7 +137,7 @@ CSerializeBuffer& CSerializeBuffer::operator=(CSerializeBuffer &clSrCSerializeBu
 
 	return *this;
 }
-
+/*
 CSerializeBuffer& CSerializeBuffer::operator<<(BYTE byValue)
 {
 	PutData((char *)&byValue, 1);
@@ -191,6 +193,7 @@ CSerializeBuffer	&CSerializeBuffer::operator << (double dValue)
 	PutData(d.value, 8);
 	return *this;
 }
+
 
 CSerializeBuffer	&CSerializeBuffer::operator >> (BYTE &byValue)
 {
@@ -252,3 +255,4 @@ CSerializeBuffer	&CSerializeBuffer::operator >> (double &dValue)
 
 	return *this;
 }
+*/

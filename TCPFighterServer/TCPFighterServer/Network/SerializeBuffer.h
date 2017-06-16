@@ -121,6 +121,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 넣기.	각 변수 타입마다 모두 만듬.
 	//////////////////////////////////////////////////////////////////////////
+	/*
 	CSerializeBuffer	&operator << (BYTE byValue);
 	CSerializeBuffer	&operator << (char chValue);
 
@@ -133,10 +134,19 @@ public:
 
 	CSerializeBuffer	&operator << (__int64 iValue);
 	CSerializeBuffer	&operator << (double dValue);
+	*/
+
+	template<typename T>
+	CSerializeBuffer& operator<<(T Value)
+	{
+		PutData(reinterpret_cast<char *>(&Value), sizeof(T));
+		return *this;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// 빼기.	각 변수 타입마다 모두 만듬.
 	//////////////////////////////////////////////////////////////////////////
+	/*
 	CSerializeBuffer	&operator >> (BYTE &byValue);
 	CSerializeBuffer	&operator >> (char &chValue);
 
@@ -150,8 +160,14 @@ public:
 	CSerializeBuffer	&operator >> (__int64 &iValue);
 	CSerializeBuffer	&operator >> (UINT64 &iValue);
 	CSerializeBuffer	&operator >> (double &dValue);
+	*/
 
-
+	template<typename T>
+	CSerializeBuffer& operator>>(T& Value)
+	{
+		GetData(reinterpret_cast<char *>(&Value), sizeof(T));
+		return *this;
+	}
 
 
 	//////////////////////////////////////////////////////////////////////////
@@ -193,20 +209,7 @@ protected:
 	//------------------------------------------------------------
 	int		m_iDataSize;
 
-	DWORD errCode;
 
-
-	union floatdata
-	{
-		char value[4];
-		float a;
-	};
-
-	union doubledata
-	{
-		char value[8];
-		double a;
-	};
 
 };
 
