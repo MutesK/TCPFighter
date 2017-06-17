@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Common/common.h"
+#include "stdafx.h"
 
 /*---------------------------------------------------------------
 
