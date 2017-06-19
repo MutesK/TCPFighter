@@ -40,7 +40,7 @@ void CharacterAttack2(st_PLAYER *);
 void CharacterAttack3(st_PLAYER *);
 
 void CharcterSync(DWORD &iD, WORD &X, WORD &Y);
-void Echo();
+void Echo(st_PLAYER *);
 ////////////////////////////////////////////////////////////////
 // Accept 하면 자동으로 호출되는 함수
 // 즉 해당 클라이언트에게는 stPACKET_SC_CREATE_MY_CHARACTER를 보내주어야 되고 (UniCast)

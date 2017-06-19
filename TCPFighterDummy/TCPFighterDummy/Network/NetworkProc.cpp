@@ -4,15 +4,12 @@
 #include "../Content/ContentProc.h"
 #include <algorithm>
 
-SOCKET g_ListenSocket;
+
 
 DWORD dwClientIDNo = 0;
-DWORD dwLoopCount = 0;
 map<DWORD, st_CLIENT *> g_ClientMap;
-
-extern UINT	g_Try;
-extern UINT	g_Fail;
-
+extern int	g_Try;
+extern int	g_Fail;
 
 bool NetworkInit()
 {
@@ -23,6 +20,13 @@ bool NetworkInit()
 	int ClientCount;
 	WCHAR szIP[20];
 	// 입력
+	
+	wprintf(L"Client Connect : ");
+	cin >> ClientCount;
+
+	wprintf(L"\nServer IP : ");
+	wcin >> szIP;
+
 	g_Try = ClientCount;
 
 	SOCKADDR_IN serveraddr;
@@ -34,12 +38,12 @@ bool NetworkInit()
 	st_CLIENT *pClient = new st_CLIENT[ClientCount];
 	for (int i = 0; i < ClientCount; i++)
 	{
-		pClient[i].dwClientNo = ++dwClientIDNo;
+		pClient[i].dwClientNo = i + 1;
 		pClient[i].Socket = socket(AF_INET, SOCK_STREAM, 0);
 		
 		if (pClient[i].Socket == INVALID_SOCKET)
 		{
-			g_Fail++;
+			DeleteCharacter(pClient->dwClientNo, pClient->dwPlayerNo);
 			continue;
 		}
 
@@ -54,7 +58,7 @@ bool NetworkInit()
 		{
 			if (WSAGetLastError() != WSAEWOULDBLOCK)
 			{
-				g_Fail++;
+				DeleteCharacter(pClient->dwClientNo, pClient->dwPlayerNo);
 				continue;
 			}
 		}
@@ -64,12 +68,20 @@ bool NetworkInit()
 		err = ioctlsocket(pClient[i].Socket, FIONBIO, &on);
 		if (err == SOCKET_ERROR)
 		{
-			g_Fail++;
+			DeleteCharacter(pClient->dwClientNo, pClient->dwPlayerNo);
 			continue;
 		}
 
-		g_ClientMap.insert({ dwClientIDNo  , &pClient[i]});
+
+		wprintf(L"Connect : %u Client : %u\n", pClient[i].Socket, pClient[i].dwClientNo);
+
+		g_ClientMap.insert({ i+1  , &pClient[i]});
 	}
+
+	wprintf(L"For Stable to Server (Wait 5 Sec) \n");
+	Sleep(5000);
+
+	return true;
 }
 void NetworkProcess()
 {
@@ -86,10 +98,6 @@ void NetworkProcess()
 	FD_ZERO(&WSet);
 	memset(UserTable_No, -1, sizeof(DWORD) * FD_SETSIZE);
 	memset(UserTable_SOCKET, INVALID_SOCKET, sizeof(SOCKET) *FD_SETSIZE);
-
-	// 리슨소켓은 0으로 함
-	dwLoopCount++;
-
 
 	// 리슨소켓 및 접속중인 모든 클라이언트에 대해 SOCKET 체크
 	auto begin = g_ClientMap.begin();
@@ -188,7 +196,7 @@ void SendProc(DWORD& UserNo)
 			return;
 
 		_LOG(dfLOG_LEVEL_ERROR, L"Send Proc -> SOCKET_ERROR : UserNo : %d", UserNo);
-		DeleteCharacter(pClient->dwClientNo);
+		DeleteCharacter(pClient->dwClientNo, pClient->dwPlayerNo);
 
 		return;
 	}
@@ -215,7 +223,7 @@ void RecvProc(DWORD& UserNo)
 
 	if (SOCKET_ERROR == iResult || 0 == iResult)
 	{
-		DeleteCharacter(pClient->dwClientNo);
+		DeleteCharacter(pClient->dwClientNo, pClient->dwPlayerNo);
 		return;
 	}
 
@@ -374,5 +382,5 @@ void DisconnectClient(DWORD &UserNo)
 
 	closesocket(pClient->Socket);
 	g_ClientMap.erase(UserNo);
-	delete pClient;
+	//delete pClient;
 }

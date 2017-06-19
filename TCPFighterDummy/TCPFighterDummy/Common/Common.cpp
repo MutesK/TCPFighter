@@ -2,40 +2,53 @@
 #include "../Network/NetworkProc.h"
 #include "../Content/ContentProc.h"
  
-extern DWORD dwLoopCount;
-extern DWORD dwFPSCount;
+
 
 DWORD iTick;
 
 int g_iLogLevel = 0;
 WCHAR g_szLogBuffer[1024];
 
-UINT	g_Try = 0;
-UINT	g_Fail = 0;
-UINT	g_Success = 0;
+int	g_Try = 0;
+int	g_Fail = 0;
+int	g_Success = 0;
+
+UINT g_EchoCount;
+DWORD g_dwClientTick;
+DWORD g_dwAvrClintTick;
+DWORD g_dwMaxClientTick;
+
+int g_AttackPacket = 0;
+int g_MovePacket = 0;
 
 void Monitoring()
 {
 	DWORD Tick = timeGetTime();
 	static DWORD timeTickCount = timeGetTime();
 
-
 	if (Tick - timeTickCount  > 1000)
 	{
-		st_Monitor pMonitor;
-		pMonitor.dwLoopCount = dwLoopCount;
-		GetLocalTime(&pMonitor.stProcTime);
-
 		WCHAR LogStr[1024];
 
+		if(g_dwClientTick != 0 || g_EchoCount != 0)
+			g_dwAvrClintTick = g_dwClientTick / g_EchoCount / 1000;
 
-		wprintf(L"%s\n", LogStr);
+		DWORD Stand = g_Success - (g_AttackPacket + g_MovePacket);
+
+		wprintf(L"=========================================\n");
+		wprintf(L"Try : %d,  Success : %d,   Fail : %d  \n", g_Try, g_Success, g_Fail);
+		wprintf(L"RTT : Average : %lld ms, Max : %lld ms EchoCount : %u\n", g_dwAvrClintTick, g_dwMaxClientTick / 1000, g_EchoCount);
+		wprintf(L"Stand : %lld, Attack : %lld, Move : %lld \n", Stand, g_AttackPacket, g_MovePacket);
+		wprintf(L"=========================================\n");
 
 		Tick = 0;
-		dwLoopCount = 0;
-		dwFPSCount = 0;
 		iTick = 0;
 
+		g_EchoCount = 0;
+		g_dwClientTick = 0;
+		g_dwAvrClintTick = 0;
+		g_dwMaxClientTick = 0;
+		g_AttackPacket = g_MovePacket = 0;
 		timeTickCount = timeGetTime();
 	}
 }

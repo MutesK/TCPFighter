@@ -6,6 +6,10 @@
 // 액션은 st_Player에 있음. -> 대응 함수로 넘김
 // 직렬화 버퍼를 사용하여도 상관없지만, 환형버퍼의 테스트용도가 큼.
 
+extern UINT g_EchoCount;
+extern DWORD g_dwClientTick;
+extern DWORD g_dwAvrClintTick;
+extern DWORD g_dwMaxClientTick;
 
 void netPacket_CreateMyCharacter(st_CLIENT *pClient, CSerializeBuffer *Buffer)
 {
@@ -25,11 +29,8 @@ void netPacket_CreateOtherCharacter(st_CLIENT *pClient, CSerializeBuffer *Buffer
 }
 
 void netPacket_DeleteCharacter(st_CLIENT *pClient, CSerializeBuffer *Buffer)
-{
-	DWORD dwPlayerNo;
-
-	*Buffer >> dwPlayerNo;
-	DeleteCharacter(pClient->dwClientNo, dwPlayerNo);
+{	
+	return;
 }
 
 void netPacket_SC_MoveStart(st_CLIENT *pClient, CSerializeBuffer *Buffer)
@@ -82,6 +83,11 @@ void netPacket_SC_ECHO(st_CLIENT *pClient, CSerializeBuffer *Buffer)
 	*Buffer >> ClientTick;
 
 	// RTT 나옴.
-	ClientTick = (timeGetTime() - ClientTick) / 1000;
+	ClientTick = (timeGetTime() - ClientTick);
 
+	g_EchoCount++;
+	g_dwClientTick += ClientTick;
+
+	if (g_dwMaxClientTick < ClientTick)
+		g_dwMaxClientTick = ClientTick;
 }

@@ -12,6 +12,7 @@ struct st_CLIENT
 	SOCKET Socket;
 	// 클라이언트 고유번호
 	DWORD dwClientNo;	
+	DWORD dwPlayerNo;
 
 	CSerializeBuffer SendQ;
 	CSerializeBuffer RecvQ;

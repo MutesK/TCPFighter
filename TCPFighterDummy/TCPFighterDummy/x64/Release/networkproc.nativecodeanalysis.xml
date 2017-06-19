@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>d:\workspace\tcpfighterdummy\tcpfighterdummy\network\</FILEPATH>
+      <FILENAME>networkproc.cpp</FILENAME>
+      <LINE>193</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>6340</DEFECTCODE>
+    <DESCRIPTION>서명 불일치: 'unsigned long'이(가) _Param_(3)로 전달되었습니다. 'wsprintfW'에 대한 호출 시에는 일부 signed 형식이 필요합니다.</DESCRIPTION>
+    <FUNCTION>SendProc</FUNCTION>
+    <DECORATED>?SendProc@@YAXAEAK@Z</DECORATED>
+    <FUNCLINE>169</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>d:\workspace\tcpfighterdummy\tcpfighterdummy\network\</FILEPATH>
+      <FILENAME>networkproc.cpp</FILENAME>
+      <LINE>239</LINE>
+      <COLUMN>4</COLUMN>
+    </SFA>
+    <DEFECTCODE>6340</DEFECTCODE>
+    <DESCRIPTION>서명 불일치: 'unsigned long'이(가) _Param_(3)로 전달되었습니다. 'wsprintfW'에 대한 호출 시에는 일부 signed 형식이 필요합니다.</DESCRIPTION>
+    <FUNCTION>RecvProc</FUNCTION>
+    <DECORATED>?RecvProc@@YAXAEAK@Z</DECORATED>
+    <FUNCLINE>201</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>d:\workspace\tcpfighterdummy\tcpfighterdummy\network\</FILEPATH>
+      <FILENAME>networkproc.cpp</FILENAME>
+      <LINE>278</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>6340</DEFECTCODE>
+    <DESCRIPTION>서명 불일치: 'unsigned long'이(가) _Param_(3)로 전달되었습니다. 'wsprintfW'에 대한 호출 시에는 일부 signed 형식이 필요합니다.</DESCRIPTION>
+    <FUNCTION>CompleteRecvPackcet</FUNCTION>
+    <DECORATED>?CompleteRecvPackcet@@YAHPEAUst_CLIENT@@@Z</DECORATED>
+    <FUNCLINE>246</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>d:\workspace\tcpfighterdummy\tcpfighterdummy\network\</FILEPATH>
+      <FILENAME>networkproc.cpp</FILENAME>
+      <LINE>285</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>6340</DEFECTCODE>
+    <DESCRIPTION>서명 불일치: 'unsigned long'이(가) _Param_(3)로 전달되었습니다. 'wsprintfW'에 대한 호출 시에는 일부 signed 형식이 필요합니다.</DESCRIPTION>
+    <FUNCTION>CompleteRecvPackcet</FUNCTION>
+    <DECORATED>?CompleteRecvPackcet@@YAHPEAUst_CLIENT@@@Z</DECORATED>
+    <FUNCLINE>246</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>d:\workspace\tcpfighterdummy\tcpfighterdummy\network\</FILEPATH>
+      <FILENAME>networkproc.cpp</FILENAME>
+      <LINE>307</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>6340</DEFECTCODE>
+    <DESCRIPTION>서명 불일치: 'unsigned long'이(가) _Param_(3)로 전달되었습니다. 'wsprintfW'에 대한 호출 시에는 일부 signed 형식이 필요합니다.</DESCRIPTION>
+    <FUNCTION>PacketProc</FUNCTION>
+    <DECORATED>?PacketProc@@YA_NPEAUst_CLIENT@@AEBEPEAVCSerializeBuffer@@@Z</DECORATED>
+    <FUNCLINE>302</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>d:\workspace\tcpfighterdummy\tcpfighterdummy\network\</FILEPATH>
+      <FILENAME>networkproc.cpp</FILENAME>
+      <LINE>308</LINE>
+      <COLUMN>9</COLUMN>
+    </SFA>
+    <DEFECTCODE>6340</DEFECTCODE>
+    <DESCRIPTION>서명 불일치: 'unsigned long'이(가) _Param_(2)로 전달되었습니다. 'wprintf'에 대한 호출 시에는 일부 signed 형식이 필요합니다.</DESCRIPTION>
+    <FUNCTION>PacketProc</FUNCTION>
+    <DECORATED>?PacketProc@@YA_NPEAUst_CLIENT@@AEBEPEAVCSerializeBuffer@@@Z</DECORATED>
+    <FUNCLINE>302</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

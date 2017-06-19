@@ -5,7 +5,6 @@ bool isQuit = false;
 int main()
 {
 	// 연결량 조절
-
 	if (!NetworkInit())
 		return false;
 	
@@ -22,8 +21,6 @@ int main()
 		// 모니터링 체크
 		Monitoring();
 
-		// 정상 종료 체크
-		//ServerControl();
 
 		Sleep(0);
 	}

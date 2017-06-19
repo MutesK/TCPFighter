@@ -6,9 +6,12 @@
 // Value : 플레이어 포인터
 ///////////////////////////////////////////////
 map <DWORD, st_PLAYER *> g_PlayerMap;
-DWORD dwFPSCount = 0;
-extern UINT	g_Fail;
-extern UINT	g_Success;
+extern int g_Try;
+extern int	g_Fail;
+extern int	g_Success;
+
+extern int g_AttackPacket;
+extern int g_MovePacket;
 
 st_PLAYER * FindPlayer(DWORD &ClientNo)
 {
@@ -26,61 +29,60 @@ void Update()
 	auto begin = g_PlayerMap.begin();
 	auto end = g_PlayerMap.end();
 
-	int MaxProcessClient = 60;
+	int MaxProcessClient = 20;
 	int ProcessClientCnt = 0;
-	Echo();
 
-	for (auto iter = begin; iter != end; ++iter)
+	while (ProcessClientCnt < MaxProcessClient)
 	{
-		st_PLAYER *pPlayer = (*iter).second;
-
-		if (ProcessClientCnt >= MaxProcessClient)
-			break;
-
-		// 50초 이상 대기했다면
-		if (timeGetTime() - pPlayer->dwActionTick >= 50000)
+		for (auto iter = begin; iter != end; ++iter)
 		{
-// 행동할 타입을 정한다.  
-/*
-		Move, Stand, Attack1, Attack2, Attack3
-*/
-			int Action = rand() % 5;
-			switch (Action)
+			st_PLAYER *pPlayer = (*iter).second;
+
+			// 50초 이상 대기했다면
+			if (timeGetTime() - pPlayer->dwActionTick >= 5000)
 			{
-			case 0:
-				if (pPlayer->dwAction < dfACTION_MOVE_LL || pPlayer->dwAction > dfACTION_MOVE_LD)
-					continue;
+				if(iter == begin)
+					Echo(pPlayer);
 
-				CharacterMoveStart(pPlayer);
-				break;
-			case 1:
-				if (pPlayer->dwAction == dfACTION_STAND)
-					continue;
+				// 행동할 타입을 정한다.  
+				
+						//Move, Stand, Attack1, Attack2, Attack3
+				
+				int Action = rand() % 5;
+				switch (Action)
+				{
+				case 0:
+					CharacterMoveStart(pPlayer);
+					break;
+				case 1:
+					if (pPlayer->dwAction == dfACTION_STAND)
+						continue;
 
-				CharacterMoveStop(pPlayer);
-				break;
-				// 움직이다가 바로 공격할수없다.
-			case 2:
-				if (pPlayer->dwAction < dfACTION_MOVE_LL || pPlayer->dwAction > dfACTION_MOVE_LD)
-					continue;
+					CharacterMoveStop(pPlayer);
+					break;
+					// 움직이다가 바로 공격할수없다.
+				case 2:
+					if (pPlayer->dwAction < dfACTION_MOVE_LL && pPlayer->dwAction > dfACTION_MOVE_LD)
+						continue;
 
-				CharacterAttack1(pPlayer);
-				break;
-			case 3:
-				if (pPlayer->dwAction < dfACTION_MOVE_LL || pPlayer->dwAction > dfACTION_MOVE_LD)
-					continue;
+					CharacterAttack1(pPlayer);
+					break;
+				case 3:
+					if (pPlayer->dwAction < dfACTION_MOVE_LL && pPlayer->dwAction > dfACTION_MOVE_LD)
+						continue;
 
-				CharacterAttack2(pPlayer);
-				break;
-			case 4:
-				if (pPlayer->dwAction < dfACTION_MOVE_LL || pPlayer->dwAction > dfACTION_MOVE_LD)
-					continue;
+					CharacterAttack2(pPlayer);
+					break;
+				case 4:
+					if (pPlayer->dwAction < dfACTION_MOVE_LL && pPlayer->dwAction > dfACTION_MOVE_LD)
+						continue;
 
-				CharacterAttack3(pPlayer);
-				break;
+					CharacterAttack3(pPlayer);
+					break;
+				}
+				
+				ProcessClientCnt++;
 			}
-
-			ProcessClientCnt++;
 		}
 	}
 	
@@ -235,6 +237,7 @@ void CreateCharacter(st_CLIENT *pClient, DWORD &id, BYTE &Direction, WORD &X, WO
 	pPlayer->pClient = pClient;
 
 	pPlayer->dwPlayerNo = pClient->dwClientNo;
+	pClient->dwPlayerNo = id;
 
 	pPlayer->dwAction = dfACTION_STAND;
 	pPlayer->dwActionTick = timeGetTime();
@@ -249,8 +252,8 @@ void CreateCharacter(st_CLIENT *pClient, DWORD &id, BYTE &Direction, WORD &X, WO
 
 void DeleteCharacter(DWORD &UserNo, DWORD &PlayerNo)
 {
-	g_Success--;
-	g_Fail++;
+	g_Success = max(g_Success - 1, 0);
+	g_Fail = min(g_Fail + 1, g_Try);
 
 	st_PLAYER *pPlayer = FindPlayer(PlayerNo);
 	if (pPlayer == nullptr)
@@ -258,11 +261,9 @@ void DeleteCharacter(DWORD &UserNo, DWORD &PlayerNo)
 		_LOG(dfLOG_LEVEL_ERROR, L"Player Not Found %u \n", UserNo);
 		return;
 	}
-
 	DisconnectClient(pPlayer->dwClientNo);
 	g_PlayerMap.erase(pPlayer->dwPlayerNo);
-	
-	delete pPlayer;
+	delete pPlayer;	
 }
 //////////////// 더미클라이언트는 진짜로 움직이지 않는다. 방향과 움직이는 시간만 저장하고, 데드레커닝
 void CharacterMoveStart(st_PLAYER *pPlayer)
@@ -272,20 +273,26 @@ void CharacterMoveStart(st_PLAYER *pPlayer)
 		return;
 	}
 	// 방향은 랜덤, 현재시간을 액션시작시간으로 정한다.
-	pPlayer->dwAction = rand() % (dfPACKET_MOVE_DIR_LD + 1);
+	int X, Y;
 
+	DeadReckoning(pPlayer->dwAction, pPlayer->dwActionTick, pPlayer->woX, pPlayer->woY, &X, &Y);
+	pPlayer->dwAction = rand() % (dfPACKET_MOVE_DIR_LD + 1);
+	pPlayer->woX = X;
+	pPlayer->woY = Y;
+
+	
 	
 	switch (pPlayer->dwAction)
 	{
 	case dfACTION_MOVE_LL:
 	case dfACTION_MOVE_LU:
 	case dfACTION_MOVE_LD:
-		pPlayer->dwAction = dfDIR_LEFT;
+		pPlayer->byDirection = dfDIR_LEFT;
 		break;
 	case dfACTION_MOVE_RU:
 	case dfACTION_MOVE_RR:
 	case dfACTION_MOVE_RD:
-		pPlayer->dwAction = dfDIR_RIGHT;
+		pPlayer->byDirection = dfDIR_RIGHT;
 		break;
 	}
 
@@ -294,6 +301,7 @@ void CharacterMoveStart(st_PLAYER *pPlayer)
 	MakeMoveStart(pPlayer, pBuffer);
 
 	pPlayer->dwActionTick = timeGetTime();
+	g_MovePacket++;
 }
 
 void CharacterMoveStop(st_PLAYER *pPlayer)
@@ -302,6 +310,11 @@ void CharacterMoveStop(st_PLAYER *pPlayer)
 	{
 		return;
 	}
+
+	if (pPlayer->dwAction <= dfACTION_ATTACK1 && pPlayer->dwAction >= dfACTION_ATTACK3)
+		g_AttackPacket = max(g_AttackPacket - 1, 0);
+	else
+		g_MovePacket = max(g_MovePacket - 1, 0);
 
 	int X, Y;
 	DeadReckoning(pPlayer->dwAction, pPlayer->dwActionTick, pPlayer->woX, pPlayer->woY, &X, &Y);
@@ -323,13 +336,20 @@ void CharacterAttack1(st_PLAYER *pPlayer)
 		return;
 	}
 
+	int X, Y;
 
+	g_AttackPacket++;
+
+	DeadReckoning(pPlayer->dwAction, pPlayer->dwActionTick, pPlayer->woX, pPlayer->woY, &X, &Y);
 	pPlayer->dwAction = dfPACKET_CS_ATTACK1;
+	pPlayer->woX = X;
+	pPlayer->woY = Y;
 
 	CSerializeBuffer *pBuffer = &pPlayer->pClient->SendQ;
 	MakeAttack1(pPlayer, pBuffer);
 
 	pPlayer->dwActionTick = timeGetTime();
+
 }
 
 void CharacterAttack2(st_PLAYER *pPlayer)
@@ -338,14 +358,19 @@ void CharacterAttack2(st_PLAYER *pPlayer)
 	{
 		return;
 	}
-
+	int X, Y;
+	DeadReckoning(pPlayer->dwAction, pPlayer->dwActionTick, pPlayer->woX, pPlayer->woY, &X, &Y);
 	pPlayer->dwAction = dfPACKET_CS_ATTACK2;
+	pPlayer->woX = X;
+	pPlayer->woY = Y;
+
 
 
 	CSerializeBuffer *pBuffer = &pPlayer->pClient->SendQ;
 	MakeAttack2(pPlayer, pBuffer);
 
 	pPlayer->dwActionTick = timeGetTime();
+	g_AttackPacket++;
 }
 
 void CharacterAttack3(st_PLAYER *pPlayer)
@@ -354,13 +379,17 @@ void CharacterAttack3(st_PLAYER *pPlayer)
 	{
 		return;
 	}
-
+	int X, Y;
+	DeadReckoning(pPlayer->dwAction, pPlayer->dwActionTick, pPlayer->woX, pPlayer->woY, &X, &Y);
 	pPlayer->dwAction = dfPACKET_CS_ATTACK3;
+	pPlayer->woX = X;
+	pPlayer->woY = Y;
 
 	CSerializeBuffer *pBuffer = &pPlayer->pClient->SendQ;
 	MakeAttack3(pPlayer, pBuffer);
 
 	pPlayer->dwActionTick = timeGetTime();
+	g_AttackPacket++;
 }
 
 void CharcterSync(DWORD &iD, WORD &X, WORD &Y)
@@ -372,18 +401,15 @@ void CharcterSync(DWORD &iD, WORD &X, WORD &Y)
 
 
 	_LOG(dfLOG_LEVEL_WARNING, L" Character Sync Packet] Player : %u  Xpos : %d : Ypos : %d => [%d , %d]", iD, pPlayer->woX, pPlayer->woY, X, Y);
-	wprintf(L" Character Sync Packet] Player : %u  Xpos : %d : Ypos : %d => [%d , %d]", iD, pPlayer->woX, pPlayer->woY, X, Y);
+	wprintf(L" Character Sync Packet] Player : %u  Xpos : %d : Ypos : %d => [%d , %d] \n", iD, pPlayer->woX, pPlayer->woY, X, Y);
 
 	pPlayer->woX = X;
 	pPlayer->woY = Y;
 }
 
-void Echo()
+void Echo(st_PLAYER * pPlayer)
 {
 	// 에코는 첫번째 UserNo만 보내기로 할꺼다. & ActionTick에는 포함시키지 않는다.
-	DWORD UserNo = 1;
-	st_PLAYER *pPlayer = FindPlayer(UserNo);
-
 	if (pPlayer == nullptr)
 		return;
 

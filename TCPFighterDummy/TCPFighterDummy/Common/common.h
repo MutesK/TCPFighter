@@ -58,12 +58,7 @@ using namespace std;
 
 #define dfACTION_STAND			255
 
-struct st_Monitor
-{
-	SYSTEMTIME  stProcTime;
 
-	DWORD		dwLoopCount;
-};
 
 extern int g_iLogLevel;
 extern WCHAR g_szLogBuffer[1024];

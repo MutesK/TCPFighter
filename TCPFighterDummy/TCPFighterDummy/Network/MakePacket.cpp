@@ -89,7 +89,7 @@ void MakeAttack3(st_PLAYER *pPlayer, CSerializeBuffer *pBuffer)
 
 	Header.byCode = dfNETWORK_PACKET_CODE;
 	Header.bySize = Buffer.GetDataSize();
-	Header.byType = dfPACKET_SC_ATTACK3;
+	Header.byType = dfPACKET_CS_ATTACK3;
 
 	pBuffer->PutData(reinterpret_cast<char *>(&Header), sizeof(st_NETWORK_PACKET_HEADER));
 	pBuffer->PutData(Buffer.GetReadBufferPtr(), Header.bySize);
@@ -105,7 +105,7 @@ void MakeEcho(CSerializeBuffer *pBuffer, DWORD& ClientTick)
 
 	Header.byCode = dfNETWORK_PACKET_CODE;
 	Header.bySize = 4;
-	Header.byType = dfPACKET_SC_ECHO;
+	Header.byType = dfPACKET_CS_ECHO;
 
 	pBuffer->PutData(reinterpret_cast<char *>(&Header), sizeof(st_NETWORK_PACKET_HEADER));
 	*pBuffer << (DWORD)ClientTick;
