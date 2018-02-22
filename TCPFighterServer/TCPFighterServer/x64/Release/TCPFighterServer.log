@@ -4,6 +4,7 @@ Common\Common.cpp(18): warning C4101: 'flag' :참조되지 않은 지역 변수�
   Sector.cpp
 Content\Sector.cpp(231): warning C4477: 'wprintf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'unsigned __int64'입니다.
   Content\Sector.cpp(231): note: 서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
+  main.cpp
   MakePacket.cpp
   NetworkProc.cpp
 Network\NetworkProc.cpp(66): warning C4309: '인수': 상수 값이 잘립니다.
@@ -12,34 +13,34 @@ Network\NetworkProc.cpp(177): warning C4477: 'wprintf' : 서식 문자열 '%d'�
   Network\NetworkProc.cpp(177): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
   Network\NetworkProc.cpp(177): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
   Network\NetworkProc.cpp(177): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\utility(217): warning C4244: '초기화 중': 'const UINT64'에서 'const DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xmemory0(840): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<const _Kty,_Ty>::pair<const unsigned __int64,_Ty,void,0>(std::pair<const unsigned __int64,_Ty> &&) noexcept'에 대한 참조를 확인하십시오.
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\utility(200): warning C4244: '초기화 중': 'const UINT64'에서 'const DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory0(737): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<const _Kty,_Ty>::pair<const unsigned __int64,_Ty,void,0>(std::pair<const unsigned __int64,_Ty> &&) noexcept'에 대한 참조를 확인하십시오.
           with
           [
               _Kty=DWORD,
               _Ty=st_CLIENT *
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xmemory0(840): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<const _Kty,_Ty>::pair<const unsigned __int64,_Ty,void,0>(std::pair<const unsigned __int64,_Ty> &&) noexcept'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory0(737): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<const _Kty,_Ty>::pair<const unsigned __int64,_Ty,void,0>(std::pair<const unsigned __int64,_Ty> &&) noexcept'에 대한 참조를 확인하십시오.
           with
           [
               _Kty=DWORD,
               _Ty=st_CLIENT *
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xmemory0(959): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator<_Other>::construct<_Objty,_Ty>(_Objty *,_Ty &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory0(857): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator<_Other>::construct<_Objty,_Ty>(_Objty *,_Ty &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Other=std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>,
               _Objty=std::pair<const DWORD,st_CLIENT *>,
               _Ty=std::pair<const UINT64,st_CLIENT *>
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xmemory0(959): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator<_Other>::construct<_Objty,_Ty>(_Objty *,_Ty &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory0(857): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator<_Other>::construct<_Objty,_Ty>(_Objty *,_Ty &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Other=std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>,
               _Objty=std::pair<const DWORD,st_CLIENT *>,
               _Ty=std::pair<const UINT64,st_CLIENT *>
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xmemory0(1097): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator_traits<_Alloc>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(std::allocator<_Other> &,_Objty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory0(996): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator_traits<_Alloc>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(std::allocator<_Other> &,_Objty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Alloc=std::allocator<std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>>,
@@ -48,7 +49,7 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.1
               _Other=std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>,
               _Objty=std::pair<const DWORD,st_CLIENT *>
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xmemory0(1096): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator_traits<_Alloc>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(std::allocator<_Other> &,_Objty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory0(995): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::allocator_traits<_Alloc>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(std::allocator<_Other> &,_Objty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Alloc=std::allocator<std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>>,
@@ -57,35 +58,35 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.1
               _Other=std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>,
               _Objty=std::pair<const DWORD,st_CLIENT *>
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xtree(904): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::_Wrap_alloc<std::allocator<_Other>>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(_Ty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xtree(889): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::_Wrap_alloc<std::allocator<_Other>>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(_Ty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Other=std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>,
               _Ty=std::pair<const DWORD,st_CLIENT *>,
               _Kty=UINT64
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xtree(902): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::_Wrap_alloc<std::allocator<_Other>>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(_Ty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xtree(887): note: 컴파일 중인 함수 템플릿 인스턴스화 'void std::_Wrap_alloc<std::allocator<_Other>>::construct<_Ty,std::pair<const _Kty,st_CLIENT*>>(_Ty *,std::pair<const _Kty,st_CLIENT*> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Other=std::_Tree_node<std::pair<const DWORD,st_CLIENT *>,void *>,
               _Ty=std::pair<const DWORD,st_CLIENT *>,
               _Kty=UINT64
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xtree(1084): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::_Tree_node<std::pair<const _Kty,_Ty>,void *> *std::_Tree_comp_alloc<_Traits>::_Buynode<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xtree(1076): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::_Tree_node<std::pair<const _Kty,_Ty>,void *> *std::_Tree_comp_alloc<_Traits>::_Buynode<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Kty=DWORD,
               _Ty=st_CLIENT *,
               _Traits=std::_Tmap_traits<DWORD,st_CLIENT *,std::less<DWORD>,std::allocator<std::pair<const DWORD,st_CLIENT *>>,false>
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\xtree(1084): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::_Tree_node<std::pair<const _Kty,_Ty>,void *> *std::_Tree_comp_alloc<_Traits>::_Buynode<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xtree(1076): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::_Tree_node<std::pair<const _Kty,_Ty>,void *> *std::_Tree_comp_alloc<_Traits>::_Buynode<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Kty=DWORD,
               _Ty=st_CLIENT *,
               _Traits=std::_Tmap_traits<DWORD,st_CLIENT *,std::less<DWORD>,std::allocator<std::pair<const DWORD,st_CLIENT *>>,false>
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\map(202): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\map(194): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Kty=DWORD,
@@ -93,7 +94,7 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.1
               _Pr=std::less<DWORD>,
               _Alloc=std::allocator<std::pair<const DWORD,st_CLIENT *>>
           ]
-  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include\map(202): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\map(194): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<std::pair<const unsigned __int64,_Ty>>(std::pair<const unsigned __int64,_Ty> &&)'에 대한 참조를 확인하십시오.
           with
           [
               _Kty=DWORD,
@@ -116,14 +117,15 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.1
               _Valty=std::pair<const UINT64,st_CLIENT *>
           ]
   RecvPacket.cpp
+  RingBuffer.cpp
   SendPacket.cpp
   SerializeBuffer.cpp
 Network\SerializeBuffer.cpp(59): warning C4244: '초기화 중': '__int64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 Network\SerializeBuffer.cpp(86): warning C4244: '초기화 중': '__int64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 Network\SerializeBuffer.cpp(132): warning C4244: '초기화 중': '__int64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 Network\SerializeBuffer.cpp(135): warning C4244: '초기화 중': '__int64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  main.cpp
   코드를 생성하고 있습니다.
-  All 467 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 460 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   코드를 생성했습니다.
-  TCPFighterServer.vcxproj -> D:\Workspace\Github\TCPFighter\TCPFighterServer\x64\Release\TCPFighterServer.exe
+  TCPFighterServer.vcxproj -> C:\Users\Mute\Documents\GitHub\TCPFighter\TCPFighterServer\x64\Release\TCPFighterServer.exe
+  TCPFighterServer.vcxproj -> C:\Users\Mute\Documents\GitHub\TCPFighter\TCPFighterServer\x64\Release\TCPFighterServer.pdb (Full PDB)
